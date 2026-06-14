@@ -1,0 +1,130 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=Inter:wght@400;500&display=swap');
+  .hinto-a { font-family: 'Inter', sans-serif; color: var(--color-text-primary); }
+  .ha-window {
+    width: 320px; border-radius: 16px;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    overflow: hidden;
+  }
+  .ha-titlebar {
+    display: flex; align-items: center; gap: 8px;
+    padding: 12px 14px; background: #1a1a2e;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .ha-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .ha-logo {
+    font-family: 'Noto Serif JP', serif; font-size: 18px;
+    font-weight: 300; color: #e8c97f; letter-spacing: 0.05em;
+    margin-left: auto; margin-right: auto;
+  }
+  .ha-body { padding: 16px; }
+  .ha-badge {
+    display: inline-flex; align-items: center; gap: 5px;
+    font-size: 10px; font-weight: 500; color: #7c6fc0;
+    background: #EEEDFE; border-radius: 4px; padding: 3px 7px;
+    letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 14px;
+  }
+  .ha-section-label {
+    font-size: 10px; color: var(--color-text-tertiary);
+    letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 8px;
+  }
+  .ha-mode-row { display: flex; gap: 6px; margin-bottom: 16px; }
+  .ha-mode {
+    flex: 1; border-radius: 8px; padding: 10px 8px;
+    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    cursor: pointer; text-align: center;
+  }
+  .ha-mode.active {
+    border: 1.5px solid #534AB7;
+    background: #EEEDFE;
+  }
+  .ha-mode-icon { font-size: 18px; margin-bottom: 4px; color: #534AB7; }
+  .ha-mode-name { font-size: 11px; font-weight: 500; color: var(--color-text-primary); }
+  .ha-mode-desc { font-size: 9px; color: var(--color-text-secondary); margin-top: 2px; }
+  .ha-divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 14px 0; }
+  .ha-status-row { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .ha-pulse {
+    width: 7px; height: 7px; border-radius: 50%; background: #1D9E75;
+    flex-shrink: 0;
+  }
+  .ha-status-text { font-size: 11px; color: var(--color-text-secondary); }
+  .ha-cta {
+    width: 100%; padding: 11px; border-radius: 8px;
+    background: #1a1a2e; color: #e8c97f;
+    border: none; font-size: 13px; font-weight: 500;
+    cursor: pointer; font-family: 'Inter', sans-serif;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+  .ha-hint-preview {
+    border-radius: 8px; border: 1px dashed #AFA9EC;
+    background: #EEEDFE; padding: 10px 12px; margin-bottom: 12px;
+  }
+  .ha-hint-q { font-size: 10px; color: #534AB7; margin-bottom: 4px; }
+  .ha-hint-ans { font-family: 'Noto Serif JP', serif; font-size: 15px; color: #3C3489; }
+  .ha-hint-romaji { font-size: 10px; color: #7c6fc0; margin-top: 2px; }
+  .ha-footer {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 8px 14px; background: var(--color-background-secondary);
+    border-top: 0.5px solid var(--color-border-tertiary);
+  }
+  .ha-footer-text { font-size: 10px; color: var(--color-text-tertiary); }
+  .ha-ver { font-size: 9px; color: var(--color-text-tertiary); }
+
+  .canvas { display: flex; gap: 24px; align-items: flex-start; justify-content: center; padding: 2rem 1rem; flex-wrap: wrap; }
+  .concept-label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 8px; letter-spacing: 0.06em; text-transform: uppercase; }
+  .concept-sub { font-size: 11px; color: var(--color-text-tertiary); margin-top: 6px; max-width: 320px; line-height: 1.5; }
+</style>
+
+<h2 class="sr-only">Hinto — tre concept UI per l'estensione Chrome</h2>
+
+<div class="hinto-a canvas">
+
+  <div>
+    <div class="concept-label">A — Shoji Dark</div>
+    <div class="ha-window">
+      <div class="ha-titlebar">
+        <div class="ha-dot" style="background:#ff5f57"></div>
+        <div class="ha-dot" style="background:#ffbd2e"></div>
+        <div class="ha-dot" style="background:#28ca42"></div>
+        <div class="ha-logo">ヒント</div>
+        <div style="width:38px"></div>
+      </div>
+      <div class="ha-body">
+        <div class="ha-badge"><i class="ti ti-bolt" aria-hidden="true" style="font-size:11px"></i> Grammar · Q1</div>
+        <div class="ha-section-label">Mode</div>
+        <div class="ha-mode-row">
+          <div class="ha-mode active">
+            <div class="ha-mode-icon"><i class="ti ti-eye" aria-hidden="true"></i></div>
+            <div class="ha-mode-name">Hint</div>
+            <div class="ha-mode-desc">Highlights answer</div>
+          </div>
+          <div class="ha-mode">
+            <div class="ha-mode-icon"><i class="ti ti-player-play" aria-hidden="true" style="color:var(--color-text-secondary)"></i></div>
+            <div class="ha-mode-name">Auto</div>
+            <div class="ha-mode-desc">Solves & advances</div>
+          </div>
+        </div>
+        <div class="ha-hint-preview">
+          <div class="ha-hint-q">Correct answer</div>
+          <div class="ha-hint-ans">が</div>
+          <div class="ha-hint-romaji">ga · subject particle</div>
+        </div>
+        <hr class="ha-divider">
+        <div class="ha-status-row">
+          <div class="ha-pulse"></div>
+          <div class="ha-status-text">Vocabulary quiz detected</div>
+        </div>
+        <button class="ha-cta"><i class="ti ti-wand" aria-hidden="true"></i> Show hint</button>
+      </div>
+      <div class="ha-footer">
+        <span class="ha-footer-text">marugoto A2</span>
+        <span class="ha-ver">hinto v1.0</span>
+      </div>
+    </div>
+    <div class="concept-sub">Titlebar nera stile macOS. Logo <em>ヒント</em> in serif dorato. Viola profondo come accent. Minimal, qualità premium.</div>
+  </div>
+
+</div>

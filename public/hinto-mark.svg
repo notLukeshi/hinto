@@ -1,0 +1,10 @@
+<svg width="64" height="64" viewBox="0 0 64 64" role="img" xmlns="http://www.w3.org/2000/svg">
+  <title>Hinto</title>
+  <rect x="4" y="4" width="56" height="56" rx="13" fill="#FDF6F0"/>
+  <rect x="4" y="4" width="56" height="56" rx="13" fill="none" stroke="#e8ddd5"/>
+  <rect x="17" y="17" width="30" height="3.5" rx="1.5" fill="#C94B2A" opacity=".22"/>
+  <path d="M15 25c3-2 8 4 13 3 5-.5 9-3 14-3 5 0 9 2.5 14 3 5 1 10-5 13-3" transform="translate(-10 0)" fill="none" stroke="#C94B2A" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="25" y1="29" x2="25" y2="54" stroke="#C94B2A" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="39" y1="29" x2="39" y2="54" stroke="#C94B2A" stroke-width="4.5" stroke-linecap="round"/>
+  <line x1="25" y1="40" x2="39" y2="40" stroke="#C94B2A" stroke-width="2.2" stroke-linecap="round" opacity=".48"/>
+</svg>

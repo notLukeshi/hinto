@@ -1,0 +1,130 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=DM+Sans:wght@400;500&display=swap');
+  .hb { font-family: 'DM Sans', sans-serif; color: var(--color-text-primary); }
+  .hb-window {
+    width: 300px; border-radius: 14px;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    overflow: hidden;
+  }
+  .hb-header {
+    padding: 14px 16px 12px;
+    border-bottom: 0.5px solid var(--color-border-tertiary);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hb-wordmark {
+    display: flex; align-items: baseline; gap: 6px;
+  }
+  .hb-jp { font-family: 'Noto Serif JP', serif; font-size: 20px; color: #D85A30; font-weight: 300; }
+  .hb-en { font-size: 11px; color: var(--color-text-secondary); letter-spacing: 0.12em; text-transform: uppercase; }
+  .hb-close {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-tertiary);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--color-text-secondary); font-size: 12px; cursor: pointer;
+  }
+  .hb-tabs {
+    display: flex; border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .hb-tab {
+    flex: 1; padding: 9px 4px; font-size: 11px; font-weight: 500;
+    text-align: center; color: var(--color-text-secondary);
+    border-bottom: 2px solid transparent; cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+  .hb-tab.on {
+    color: #D85A30;
+    border-bottom: 2px solid #D85A30;
+  }
+  .hb-body { padding: 14px 16px; }
+  .hb-context {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--color-background-secondary);
+    border-radius: 8px; padding: 8px 10px; margin-bottom: 14px;
+  }
+  .hb-ctx-icon { font-size: 14px; color: #D85A30; }
+  .hb-ctx-text { font-size: 11px; color: var(--color-text-secondary); }
+  .hb-ctx-bold { font-weight: 500; color: var(--color-text-primary); }
+  .hb-answer-card {
+    border-radius: 10px; padding: 12px 14px;
+    border: 1px solid #F0997B;
+    background: #FAECE7;
+    margin-bottom: 14px;
+  }
+  .hb-answer-label { font-size: 9px; color: #993C1D; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 6px; }
+  .hb-answer-main {
+    font-family: 'Noto Serif JP', serif; font-size: 22px;
+    color: #712B13; line-height: 1.2;
+  }
+  .hb-answer-sub { font-size: 10px; color: #D85A30; margin-top: 4px; }
+  .hb-btn-row { display: flex; gap: 6px; }
+  .hb-btn {
+    flex: 1; padding: 10px 6px; border-radius: 8px;
+    font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px;
+  }
+  .hb-btn-ghost {
+    background: var(--color-background-secondary);
+    border: 0.5px solid var(--color-border-secondary);
+    color: var(--color-text-primary);
+  }
+  .hb-btn-fill {
+    background: #D85A30; border: none; color: #fff;
+  }
+  .hb-prog { margin-top: 14px; }
+  .hb-prog-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--color-text-tertiary); margin-bottom: 5px; }
+  .hb-prog-bar { height: 3px; background: var(--color-border-tertiary); border-radius: 99px; }
+  .hb-prog-fill { height: 3px; width: 40%; background: #D85A30; border-radius: 99px; }
+  .hb-footer {
+    padding: 8px 16px; border-top: 0.5px solid var(--color-border-tertiary);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .hb-ft { font-size: 9px; color: var(--color-text-tertiary); }
+</style>
+
+<div class="hb" style="display:flex; flex-direction:column; align-items:center; padding: 2rem 1rem;">
+  <div style="font-size:12px; font-weight:500; color:var(--color-text-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:8px;">B — Sumi Ink</div>
+  <div class="hb-window">
+    <div class="hb-header">
+      <div class="hb-wordmark">
+        <span class="hb-jp">ヒント</span>
+        <span class="hb-en">hinto</span>
+      </div>
+      <div class="hb-close"><i class="ti ti-x" aria-hidden="true"></i></div>
+    </div>
+    <div class="hb-tabs">
+      <div class="hb-tab on"><i class="ti ti-bulb" style="font-size:12px; vertical-align:-1px" aria-hidden="true"></i> Hint</div>
+      <div class="hb-tab"><i class="ti ti-player-play" style="font-size:12px; vertical-align:-1px" aria-hidden="true"></i> Auto</div>
+      <div class="hb-tab"><i class="ti ti-settings" style="font-size:12px; vertical-align:-1px" aria-hidden="true"></i> Settings</div>
+    </div>
+    <div class="hb-body">
+      <div class="hb-context">
+        <i class="ti ti-pencil hb-ctx-icon" aria-hidden="true"></i>
+        <span class="hb-ctx-text"><span class="hb-ctx-bold">Grammar</span> · Lesson 9 · Q1</span>
+      </div>
+      <div class="hb-answer-card">
+        <div class="hb-answer-label">Correct answer</div>
+        <div class="hb-answer-main">が</div>
+        <div class="hb-answer-sub">ga · subject particle</div>
+      </div>
+      <div class="hb-btn-row">
+        <button class="hb-btn hb-btn-ghost"><i class="ti ti-eye" aria-hidden="true" style="font-size:14px"></i> Highlight</button>
+        <button class="hb-btn hb-btn-fill"><i class="ti ti-check" aria-hidden="true" style="font-size:14px"></i> Select it</button>
+      </div>
+      <div class="hb-prog">
+        <div class="hb-prog-label">
+          <span>Progress</span>
+          <span>2 / 5</span>
+        </div>
+        <div class="hb-prog-bar"><div class="hb-prog-fill"></div></div>
+      </div>
+    </div>
+    <div class="hb-footer">
+      <span class="hb-ft">marugoto A2 detected</span>
+      <span class="hb-ft">hinto 1.0</span>
+    </div>
+  </div>
+  <div style="font-size:11px; color:var(--color-text-tertiary); margin-top:8px; max-width:300px; line-height:1.5;">Rosso corallo come accent principale (inchiostro sumi). Tab nav orizzontale. Risposta in card calda con bordo. Progress bar sottile.</div>
+</div>
