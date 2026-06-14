@@ -1,0 +1,133 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap');
+  .hc { font-family: 'Inter', sans-serif; color: var(--color-text-primary); }
+  .hc-window {
+    width: 280px; border-radius: 12px;
+    background: var(--color-background-primary);
+    border: 0.5px solid var(--color-border-secondary);
+    overflow: hidden;
+  }
+  .hc-topbar {
+    background: #0F6E56; padding: 10px 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .hc-title-wrap { display: flex; align-items: center; gap: 8px; }
+  .hc-kanji-badge {
+    width: 28px; height: 28px; background: rgba(255,255,255,0.15);
+    border-radius: 6px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Noto Serif JP', serif; font-size: 15px; color: #fff;
+  }
+  .hc-title { font-size: 13px; font-weight: 500; color: #fff; }
+  .hc-subtitle-top { font-size: 9px; color: rgba(255,255,255,0.6); margin-top: 0px; }
+  .hc-dots { display: flex; gap: 4px; }
+  .hc-dot2 { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.2); }
+  .hc-dot2.r { background: rgba(255,255,255,0.7); }
+  .hc-segment {
+    display: flex; gap: 0; border-bottom: 0.5px solid var(--color-border-tertiary);
+  }
+  .hc-seg {
+    flex: 1; padding: 8px 6px; font-size: 10px; font-weight: 500;
+    text-align: center; color: var(--color-text-secondary); cursor: pointer;
+    border-bottom: 2px solid transparent;
+  }
+  .hc-seg.on { color: #0F6E56; border-bottom: 2px solid #0F6E56; }
+  .hc-body { padding: 14px; }
+  .hc-page-info {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px;
+  }
+  .hc-page-label { font-size: 10px; color: var(--color-text-tertiary); }
+  .hc-page-type {
+    font-size: 9px; font-family: 'IBM Plex Mono', monospace;
+    background: #E1F5EE; color: #085041; border-radius: 4px; padding: 2px 6px;
+  }
+  .hc-answer {
+    border-left: 3px solid #1D9E75; padding: 8px 12px;
+    background: var(--color-background-secondary);
+    border-radius: 0 8px 8px 0; margin-bottom: 12px;
+  }
+  .hc-ans-label { font-size: 9px; color: var(--color-text-tertiary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+  .hc-ans-val {
+    font-family: 'Noto Serif JP', serif; font-size: 20px; color: #085041;
+    line-height: 1.2;
+  }
+  .hc-ans-en { font-size: 10px; color: var(--color-text-secondary); margin-top: 2px; }
+  .hc-actions { display: flex; flex-direction: column; gap: 6px; }
+  .hc-action {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 10px; border-radius: 8px; cursor: pointer;
+    border: 0.5px solid var(--color-border-tertiary);
+    background: var(--color-background-secondary);
+    font-size: 12px; color: var(--color-text-primary);
+  }
+  .hc-action.primary {
+    background: #0F6E56; color: #fff; border: none;
+  }
+  .hc-action-icon { font-size: 15px; flex-shrink: 0; }
+  .hc-action-sub { font-size: 9px; color: rgba(255,255,255,0.65); margin-top: 0px; display: block; }
+  .hc-action-sub2 { font-size: 9px; color: var(--color-text-tertiary); margin-top: 0px; display: block; }
+  .hc-bot {
+    padding: 8px 14px; border-top: 0.5px solid var(--color-border-tertiary);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hc-live { width: 6px; height: 6px; border-radius: 50%; background: #1D9E75; }
+  .hc-live-text { font-size: 9px; color: var(--color-text-tertiary); }
+</style>
+
+<div class="hc" style="display:flex; flex-direction:column; align-items:center; padding: 2rem 1rem;">
+  <div style="font-size:12px; font-weight:500; color:var(--color-text-secondary); letter-spacing:0.06em; text-transform:uppercase; margin-bottom:8px;">C — Matcha Zen</div>
+  <div class="hc-window">
+    <div class="hc-topbar">
+      <div class="hc-title-wrap">
+        <div class="hc-kanji-badge">ヒ</div>
+        <div>
+          <div class="hc-title">hinto</div>
+          <div class="hc-subtitle-top">marugoto assistant</div>
+        </div>
+      </div>
+      <div class="hc-dots">
+        <div class="hc-dot2"></div>
+        <div class="hc-dot2"></div>
+        <div class="hc-dot2 r"></div>
+      </div>
+    </div>
+    <div class="hc-segment">
+      <div class="hc-seg on">Hint</div>
+      <div class="hc-seg">Auto</div>
+      <div class="hc-seg">Log</div>
+    </div>
+    <div class="hc-body">
+      <div class="hc-page-info">
+        <span class="hc-page-label">Kanji · Read · T5 L9</span>
+        <span class="hc-page-type">type: radio</span>
+      </div>
+      <div class="hc-answer">
+        <div class="hc-ans-label">Next correct answer</div>
+        <div class="hc-ans-val">読む</div>
+        <div class="hc-ans-en">yomu · to read</div>
+      </div>
+      <div class="hc-actions">
+        <div class="hc-action primary">
+          <i class="ti ti-eye hc-action-icon" aria-hidden="true"></i>
+          <div>
+            <span>Highlight answer</span>
+            <span class="hc-action-sub">Glows the correct option</span>
+          </div>
+        </div>
+        <div class="hc-action">
+          <i class="ti ti-cursor-text hc-action-icon" aria-hidden="true"></i>
+          <div>
+            <span>Click for me</span>
+            <span class="hc-action-sub2">Selects & moves forward</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="hc-bot">
+      <div class="hc-live"></div>
+      <span class="hc-live-text">Quiz detected · 3 questions remaining</span>
+    </div>
+  </div>
+  <div style="font-size:11px; color:var(--color-text-tertiary); margin-top:8px; max-width:280px; line-height:1.5;">Verde matcha come colore dominante. Header solido. Badge monocromatico per il tipo di domanda. Azioni divise: highlight vs click-for-me.</div>
+</div>

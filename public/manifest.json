@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Hinto",
+  "description": "Manual and confirmed automatic hints for Marugoto A2 practice pages.",
+  "version": "0.1.0",
+  "action": {
+    "default_title": "Open Hinto"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["activeTab", "tabs"],
+  "host_permissions": ["https://a2.marugotoweb.jp/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://a2.marugotoweb.jp/*"],
+      "js": ["content.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "icons": {
+    "16": "favicon.svg",
+    "48": "favicon.svg",
+    "128": "favicon.svg"
+  }
+}
