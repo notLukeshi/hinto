@@ -4,7 +4,12 @@
   "description": "Manual and confirmed automatic hints for Marugoto A2 practice pages.",
   "version": "0.1.0",
   "action": {
-    "default_title": "Open Hinto"
+    "default_title": "Open Hinto",
+    "default_icon": {
+      "16": "hinto-logo-16.png",
+      "48": "hinto-logo-48.png",
+      "128": "hinto-logo-128.png"
+    }
   },
   "background": {
     "service_worker": "background.js",
@@ -20,8 +25,8 @@
     }
   ],
   "icons": {
-    "16": "favicon.svg",
-    "48": "favicon.svg",
-    "128": "favicon.svg"
+    "16": "hinto-logo-16.png",
+    "48": "hinto-logo-48.png",
+    "128": "hinto-logo-128.png"
   }
 }

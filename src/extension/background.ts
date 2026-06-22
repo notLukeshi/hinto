@@ -60,18 +60,63 @@ function openControlWindow(tab?: HintoTab) {
 
 chrome.action.onClicked.addListener(openControlWindow)
 
+function queryMarugotoTab(callback: (tabId?: number) => void, excludeTabId?: number) {
+  chrome.tabs.query({ url: 'https://a2.marugotoweb.jp/*' }, (tabs) => {
+    const tab = tabs
+      .filter((item) => item.id && item.id !== excludeTabId)
+      .sort((a, b) => Number(b.active) - Number(a.active) || (b.lastAccessed || 0) - (a.lastAccessed || 0))[0]
+    targetTabId = tab?.id
+    callback(targetTabId)
+  })
+}
+
 function resolveTargetTab(callback: (tabId?: number) => void) {
   if (targetTabId) {
     callback(targetTabId)
     return
   }
 
-  chrome.tabs.query({ url: 'https://a2.marugotoweb.jp/*' }, (tabs) => {
-    const tab = tabs
-      .filter((item) => item.id)
-      .sort((a, b) => Number(b.active) - Number(a.active) || (b.lastAccessed || 0) - (a.lastAccessed || 0))[0]
-    targetTabId = tab?.id
-    callback(targetTabId)
+  queryMarugotoTab(callback)
+}
+
+function sendToTab(tabId: number, message: RuntimeRequest, sendResponse: (response: unknown) => void, retried = false) {
+  chrome.tabs.sendMessage(tabId, message, (response) => {
+    if (!chrome.runtime.lastError) {
+      sendResponse(response)
+      return
+    }
+
+    const error = chrome.runtime.lastError.message
+    targetTabId = undefined
+    if (!retried) {
+      queryMarugotoTab((fallbackTabId) => {
+        if (fallbackTabId) {
+          sendToTab(fallbackTabId, message, sendResponse, true)
+          return
+        }
+
+        sendResponse({
+          ok: false,
+          kind: 'unknown',
+          title: 'Unsupported tab',
+          url: '',
+          status: 'The active tab is not running the Hinto content script.',
+          confidence: 0,
+          error,
+        })
+      }, tabId)
+      return
+    }
+
+    sendResponse({
+      ok: false,
+      kind: 'unknown',
+      title: 'Unsupported tab',
+      url: '',
+      status: 'The active tab is not running the Hinto content script.',
+      confidence: 0,
+      error,
+    })
   })
 }
 
@@ -89,23 +134,7 @@ chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
       return
     }
 
-    chrome.tabs.sendMessage(tabId, message, (response) => {
-      if (chrome.runtime.lastError) {
-        targetTabId = undefined
-        sendResponse({
-          ok: false,
-          kind: 'unknown',
-          title: 'Unsupported tab',
-          url: '',
-          status: 'The active tab is not running the Hinto content script.',
-          confidence: 0,
-          error: chrome.runtime.lastError.message,
-        })
-        return
-      }
-
-      sendResponse(response)
-    })
+    sendToTab(tabId, message, sendResponse)
   })
 
   return true
