@@ -102,6 +102,7 @@ function App() {
   const [theme, setTheme] = useState<Theme>(() => (localStorage.getItem('hinto-theme') as Theme) || 'sumi')
   const [state, setState] = useState<PageState>(fallbackState)
   const [busy, setBusy] = useState(false)
+  const [autoRunning, setAutoRunning] = useState(false)
   const [message, setMessage] = useState('Ready')
 
   const progress = useMemo(() => {
@@ -125,6 +126,23 @@ function App() {
     setState(response)
     setMessage(response.error || response.status || done)
     setBusy(false)
+  }
+
+  async function startAuto() {
+    setAutoRunning(true)
+    setMessage('Auto run started.')
+    const response = await send({ type: 'HINTO_AUTO_START' })
+    setState(response)
+    setMessage(response.error || response.status || 'Auto stopped')
+    setAutoRunning(false)
+  }
+
+  async function stopAuto() {
+    setMessage('Stopping auto run...')
+    const response = await send({ type: 'HINTO_AUTO_STOP' })
+    setState(response)
+    setMessage(response.error || response.status || 'Auto stopped')
+    setAutoRunning(false)
   }
 
   function updateTheme(next: Theme) {
@@ -153,7 +171,7 @@ function App() {
       <header className="titlebar">
         <div className="title-spacer" />
         <div className="brand">
-          <span className="brand-jp">ヒント</span>
+          <span className="brand-jp">&#x30D2;&#x30F3;&#x30C8;</span>
           <span className="brand-en">hinto</span>
         </div>
         <button className="close-button" type="button" aria-label="Close Hinto" onClick={() => window.close()}>
@@ -219,13 +237,13 @@ function App() {
           </article>
 
           <div className="stack">
-            <button type="button" className="fill wide" disabled={busy || !state.ok} onClick={() => run({ type: 'HINTO_AUTO_START' }, 'Auto started')}>
-              Start auto
+            <button type="button" className="fill wide" disabled={busy || autoRunning || !state.ok} onClick={startAuto}>
+              {autoRunning ? 'Running...' : 'Start auto'}
             </button>
-            <button type="button" className="ghost wide" disabled={busy} onClick={() => run({ type: 'HINTO_AUTO_STOP' }, 'Auto stopped')}>
+            <button type="button" className="ghost wide" disabled={!autoRunning} onClick={stopAuto}>
               Stop
             </button>
-            <button type="button" className="ghost wide" disabled={busy || !state.advanceLabel} onClick={() => run({ type: 'HINTO_ADVANCE' }, 'Advanced')}>
+            <button type="button" className="ghost wide" disabled={busy || autoRunning || !state.advanceLabel} onClick={() => run({ type: 'HINTO_ADVANCE' }, 'Advanced')}>
               {state.advanceLabel || 'Next'}
             </button>
           </div>

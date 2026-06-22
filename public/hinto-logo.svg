@@ -1,0 +1,25 @@
+<svg width="128" height="128" viewBox="0 0 128 128" role="img" aria-labelledby="title desc" xmlns="http://www.w3.org/2000/svg">
+  <title id="title">Hinto</title>
+  <desc id="desc">A Shoji dark Hinto mark based on the katakana hi.</desc>
+  <defs>
+    <linearGradient id="bg" x1="20" x2="108" y1="10" y2="124" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#141424"/>
+      <stop offset="1" stop-color="#0d0d19"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="35" x2="102" y1="24" y2="112" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff0ad"/>
+      <stop offset=".38" stop-color="#eed487"/>
+      <stop offset="1" stop-color="#c59d4c"/>
+    </linearGradient>
+    <filter id="shadow" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#05050a" flood-opacity=".5"/>
+    </filter>
+  </defs>
+  <rect x="7" y="7" width="114" height="114" rx="27" fill="url(#bg)"/>
+  <rect x="8" y="8" width="112" height="112" rx="26" fill="none" stroke="#30304b" stroke-width="2"/>
+  <g fill="none" stroke="url(#gold)" stroke-linecap="round" stroke-linejoin="round" filter="url(#shadow)">
+    <path d="M37 31c9-1 14 1 8 6-3 20-4 42-3 61 .5 14 8 19 23 19 11 0 25-2 35-5" stroke-width="10"/>
+    <path d="M42 72c19-4 40-12 61-28" stroke-width="9"/>
+  </g>
+  <path d="M42 72c18-4 38-11 59-27" fill="none" stroke="#fff2b6" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+</svg>
