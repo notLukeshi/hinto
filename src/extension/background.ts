@@ -43,6 +43,18 @@ type HintoTab = {
 
 let targetTabId: number | undefined
 
+function errorResponse(title: string, status: string, error?: string): unknown {
+  return {
+    ok: false,
+    kind: 'unknown' as const,
+    title,
+    url: '',
+    status,
+    confidence: 0,
+    error,
+  }
+}
+
 function isMarugotoTab(tab?: HintoTab) {
   return Boolean(tab?.id && tab.url?.startsWith('https://a2.marugotoweb.jp/'))
 }
@@ -95,42 +107,19 @@ function sendToTab(tabId: number, message: RuntimeRequest, sendResponse: (respon
           return
         }
 
-        sendResponse({
-          ok: false,
-          kind: 'unknown',
-          title: 'Unsupported tab',
-          url: '',
-          status: 'The active tab is not running the Hinto content script.',
-          confidence: 0,
-          error,
-        })
+        sendResponse(errorResponse('Unsupported tab', 'The active tab is not running the Hinto content script.', error))
       }, tabId)
       return
     }
 
-    sendResponse({
-      ok: false,
-      kind: 'unknown',
-      title: 'Unsupported tab',
-      url: '',
-      status: 'The active tab is not running the Hinto content script.',
-      confidence: 0,
-      error,
-    })
+    sendResponse(errorResponse('Unsupported tab', 'The active tab is not running the Hinto content script.', error))
   })
 }
 
 chrome.runtime.onMessage.addListener((message, _sender, sendResponse) => {
   resolveTargetTab((tabId) => {
     if (!tabId) {
-      sendResponse({
-        ok: false,
-        kind: 'unknown',
-        title: 'No active tab',
-        url: '',
-        status: 'Select a Marugoto exercise tab first.',
-        confidence: 0,
-      })
+      sendResponse(errorResponse('No active tab', 'Select a Marugoto exercise tab first.'))
       return
     }
 

@@ -97,6 +97,12 @@ type ChromeLike = {
 
 declare const chrome: ChromeLike
 
+declare global {
+  interface Window {
+    __hintoLastMedia?: string
+  }
+}
+
 let autoRunning = false
 let lastCapturedMedia = ''
 let lastPageQuestionId = 0
@@ -370,7 +376,7 @@ function currentMediaUrl() {
     currentProbeSnapshot().mediaUrl ||
     document.documentElement.dataset.hintoMediaUrl ||
     lastCapturedMedia ||
-    String((window as unknown as { __hintoLastMedia?: string }).__hintoLastMedia || '')
+    String(window.__hintoLastMedia || '')
   )
 }
 
@@ -560,18 +566,20 @@ function findGrammarAnswerTarget(): SolverTarget | null {
   if (nextBlank) {
     const correctValue = nextBlank.dataset.correctValue
     const menuId = nextBlank.dataset.menuId
-    const target =
-      document.querySelector<HTMLElement>(`._dropdownMenuView[data-menu-id="${menuId}"] ._dropdownItem[data-value="${correctValue}"]`) ||
-      document.querySelector<HTMLElement>(`._dropdownItem[data-value="${correctValue}"]`)
-    if (target) {
-      return {
-        element: target,
-        hintElement: nextBlank.querySelector<HTMLElement>('._answerInput') || nextBlank,
-        label: japaneseText(nextBlank.querySelector('._answerCorrect')) || japaneseText(target),
-        source: 'Grammar dropdown answer',
-        confidence: 0.96,
-        kind: 'grammar',
-        targetText: textOf(nextBlank),
+    if (correctValue) {
+      const target =
+        document.querySelector<HTMLElement>(`._dropdownMenuView[data-menu-id="${menuId}"] ._dropdownItem[data-value="${correctValue}"]`) ||
+        document.querySelector<HTMLElement>(`._dropdownItem[data-value="${correctValue}"]`)
+      if (target) {
+        return {
+          element: target,
+          hintElement: nextBlank.querySelector<HTMLElement>('._answerInput') || nextBlank,
+          label: japaneseText(nextBlank.querySelector('._answerCorrect')) || japaneseText(target),
+          source: 'Grammar dropdown answer',
+          confidence: 0.96,
+          kind: 'grammar',
+          targetText: textOf(nextBlank),
+        }
       }
     }
   }
@@ -585,15 +593,17 @@ function findGrammarAnswerTarget(): SolverTarget | null {
 
   if (nextRadio) {
     const correctValue = nextRadio.dataset.correctValue
-    const target = nextRadio.querySelector<HTMLElement>(`._radioAnswerItem[data-value="${correctValue}"]`)
-    if (target) {
-      return {
-        element: target,
-        label: japaneseText(target),
-        source: 'Grammar radio answer',
-        confidence: 0.96,
-        kind: 'grammar',
-        targetText: textOf(nextRadio),
+    if (correctValue) {
+      const target = nextRadio.querySelector<HTMLElement>(`._radioAnswerItem[data-value="${correctValue}"]`)
+      if (target) {
+        return {
+          element: target,
+          label: japaneseText(target),
+          source: 'Grammar radio answer',
+          confidence: 0.96,
+          kind: 'grammar',
+          targetText: textOf(nextRadio),
+        }
       }
     }
   }
@@ -607,19 +617,21 @@ function findGrammarAnswerTarget(): SolverTarget | null {
   if (nextDrop) {
     const correctValue = nextDrop.dataset.correctValue
     const groupId = nextDrop.dataset.draggableGroupId
-    const target = document.querySelector<HTMLElement>(
-      `._draggableGroupView[data-draggable-group-id="${groupId}"] ._draggableItem[data-value="${correctValue}"]`,
-    )
-    if (target) {
-      return {
-        element: target,
-        beforeElement: nextDrop.querySelector<HTMLElement>('._answerInput') || nextDrop,
-        hintElement: nextDrop.querySelector<HTMLElement>('._answerInput') || nextDrop,
-        label: japaneseText(nextDrop.querySelector('._answerCorrect')) || japaneseText(target),
-        source: 'Grammar drag answer',
-        confidence: 0.96,
-        kind: 'grammar',
-        targetText: textOf(nextDrop),
+    if (correctValue) {
+      const target = document.querySelector<HTMLElement>(
+        `._draggableGroupView[data-draggable-group-id="${groupId}"] ._draggableItem[data-value="${correctValue}"]`,
+      )
+      if (target) {
+        return {
+          element: target,
+          beforeElement: nextDrop.querySelector<HTMLElement>('._answerInput') || nextDrop,
+          hintElement: nextDrop.querySelector<HTMLElement>('._answerInput') || nextDrop,
+          label: japaneseText(nextDrop.querySelector('._answerCorrect')) || japaneseText(target),
+          source: 'Grammar drag answer',
+          confidence: 0.96,
+          kind: 'grammar',
+          targetText: textOf(nextDrop),
+        }
       }
     }
   }
@@ -714,30 +726,31 @@ function readAdvanceControl(): { element: HTMLElement; label: string } | null {
   return readAnswerControl() || readNextControl()
 }
 
-function readAnswerControl(): { element: HTMLElement; label: string } | null {
-  const controls = [
-    document.querySelector<HTMLElement>('#btn_answer:not(.disable) a'),
-    document.querySelector<HTMLElement>('#btn_answer:not(.disable)'),
-    document.querySelector<HTMLElement>('#btn_result.enable a'),
-    document.querySelector<HTMLElement>('#btn_result.enable'),
-    document.querySelector<HTMLElement>('#btn_result:not(.disable) a'),
-    document.querySelector<HTMLElement>('#btn_result:not(.disable)'),
-    document.querySelector<HTMLElement>('._answerCheckButton'),
-    document.querySelector<HTMLElement>('a[href*="answer"]'),
-  ]
+const answerControlSelectors = [
+  '#btn_answer:not(.disable) a',
+  '#btn_answer:not(.disable)',
+  '#btn_result.enable a',
+  '#btn_result.enable',
+  '#btn_result:not(.disable) a',
+  '#btn_result:not(.disable)',
+  '._answerCheckButton',
+  'a[href*="answer"]',
+] as const
 
-  const control = controls.find((item) => item && isVisible(item))
+function readAnswerControl(): { element: HTMLElement; label: string } | null {
+  const control = answerControlSelectors
+    .map((selector) => document.querySelector<HTMLElement>(selector))
+    .find((item) => item && isVisible(item))
   if (!control) return null
   return { element: control, label: textOf(control) || 'Answer' }
 }
 
-function readNextControl(): { element: HTMLElement; label: string } | null {
-  const controls = [
-    document.querySelector<HTMLElement>('#btn_next:not(.disable) a'),
-    document.querySelector<HTMLElement>('#btn_next:not(.disable)'),
-  ]
+const nextControlSelectors = ['#btn_next:not(.disable) a', '#btn_next:not(.disable)'] as const
 
-  const control = controls.find((item) => item && isVisible(item))
+function readNextControl(): { element: HTMLElement; label: string } | null {
+  const control = nextControlSelectors
+    .map((selector) => document.querySelector<HTMLElement>(selector))
+    .find((item) => item && isVisible(item))
   if (!control) return null
   return { element: control, label: textOf(control) || 'Next' }
 }
@@ -894,7 +907,8 @@ async function autoRun(): Promise<PageState> {
 
 async function autoRunGrammar(): Promise<PageState> {
   let applied = 0
-  for (let index = 0; index < 80 && autoRunning; index += 1) {
+  const deadline = Date.now() + 12_000
+  for (let index = 0; index < 80 && autoRunning && Date.now() < deadline; index += 1) {
     const target = findGrammarAnswerTarget()
     if (!target) break
 
@@ -909,31 +923,14 @@ async function autoRunGrammar(): Promise<PageState> {
   }
 
   if (!autoRunning) return toState(await findTarget(), 'Auto run stopped by user.')
+  if (Date.now() >= deadline) return toState(await findTarget(), 'Auto stopped: timed out waiting for a page transition.')
   if (grammarPendingCount() > 0) return toState(await findTarget(), `Auto paused: ${grammarPendingCount()} grammar answer(s) still pending.`)
 
   const answer = readAnswerControl()
   if (answer) {
     activateElement(answer.element)
     await waitForDomChange(140)
-    const nextAfterAnswer = readNextControl()
-    if (nextAfterAnswer) {
-      activateElement(nextAfterAnswer.element)
-      await waitForDomChange(140)
-      return toState(
-        await findTarget(),
-        applied
-          ? `Auto filled ${applied} answer(s), clicked ${answer.label}, then clicked ${nextAfterAnswer.label}.`
-          : `Auto clicked ${answer.label}, then clicked ${nextAfterAnswer.label}.`,
-      )
-    }
     return toState(await findTarget(), applied ? `Auto filled ${applied} answer(s) and clicked ${answer.label}.` : `Auto clicked ${answer.label}.`)
-  }
-
-  const next = readNextControl()
-  if (next) {
-    activateElement(next.element)
-    await waitForDomChange(140)
-    return toState(await findTarget(), `Auto clicked ${next.label}.`)
   }
 
   return toState(await findTarget(), applied ? `Auto filled ${applied} answer(s).` : 'Auto stopped: no grammar action available.')
@@ -961,14 +958,16 @@ function waitForDomChange(timeoutMs: number) {
       resolve()
     }
     const observer = new MutationObserver(finish)
-    observer.observe(document.body, { attributes: true, childList: true, characterData: true, subtree: true })
+    observer.observe(document.body || document.documentElement, { attributes: true, childList: true, characterData: true, subtree: true })
     window.setTimeout(finish, timeoutMs)
   })
 }
 
+const simulatedEventTypes = ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click'] as const
+
 function activateElement(element: HTMLElement) {
   element.scrollIntoView({ block: 'center', inline: 'center' })
-  for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup', 'click']) {
+  for (const type of simulatedEventTypes) {
     element.dispatchEvent(
       new MouseEvent(type, {
         bubbles: true,

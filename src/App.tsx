@@ -57,7 +57,7 @@ const themes: Array<{ id: Theme; name: string; note: string }> = [
   { id: 'shoji', name: 'Shoji Dark', note: 'night paper + gold accent' },
 ]
 
-const appVersion = '0.1.0'
+const appVersion = '0.1.1'
 
 function kindLabel(kind: ExerciseKind) {
   const labels: Record<ExerciseKind, string> = {
